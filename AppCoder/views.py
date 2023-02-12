@@ -4,8 +4,17 @@ from AppCoder.models import Curso
 
 # Create your views here.
 
-def curso(self) :
-    curso = Curso(nombre="Desarrollo Web", comision=19881)
-    curso.save()
-    doc_texto = f"---> Curso: {curso.nombre} Comision: {curso.comision}"
-    return HttpResponse(doc_texto)
+def inicio(request) :
+    return HttpResponse("vista inicio")
+
+def cursos(request) :
+    return HttpResponse("vista cursos")
+
+def profesores(request) :
+    return HttpResponse("vista profesores")
+
+def entregables(request) :
+    return HttpResponse("vista entregables")
+
+def estudiantes(request) :
+    return HttpResponse("vista estudiantes")
