@@ -40,3 +40,23 @@ def cursoFormulario(request) :
         miFormulario = CursoFormulario()
 
     return render(request, "AppCoder/cursoFormulario.html", {"miFormulario":miFormulario})
+
+def busquedaComision(request) :
+    return render(request, "AppCoder/busquedaComision.html")
+
+"""
+def buscar(request) :
+    respuesta = f"Estoy buscando la comision número: {request.GET['comision']}"
+    return HttpResponse(respuesta)
+"""
+
+def buscar(request) :
+    if request.GET["comision"] :
+        comision = request.GET["comision"]
+        cursos = Curso.objects.filter(comision__icontains=comision)
+        return render(request, "resultadoBusqueda.html", {"cursos":cursos, "comision":comision})
+
+    else :
+        respuesta = "No enviaste datos"
+
+    return HttpResponse(respuesta)
