@@ -41,14 +41,17 @@ def cursoFormulario(request) :
 
     return render(request, "AppCoder/cursoFormulario.html", {"miFormulario":miFormulario})
 
-def busquedaComision(request) :
-    return render(request, "AppCoder/busquedaComision.html")
+def busquedaCamada(request) :
+    return render(request, "../templates/AppCoder/busquedaCamada.html")
+
+def buscar(request) :
+    mensaje = "Se busco la comisión/camada número: " + str(request.GET['camada'])
+    return HttpResponse(mensaje)
 
 """
 def buscar(request) :
     respuesta = f"Estoy buscando la comision número: {request.GET['comision']}"
     return HttpResponse(respuesta)
-"""
 
 def buscar(request) :
     if request.GET["comision"] :
@@ -60,3 +63,4 @@ def buscar(request) :
         respuesta = "No enviaste datos"
 
     return HttpResponse(respuesta)
+"""
