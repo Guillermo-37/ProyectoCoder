@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from AppCoder.models import Curso
-from AppCoder.forms import CursoFormulario
+from AppCoder.models import Curso, Profesor, Estudiante
+from AppCoder.forms import CursoFormulario, ProfesorFormulario, EstudianteFormulario
 
 # Create your views here.
 
@@ -32,7 +32,7 @@ def cursoFormulario(request) :
 
         if miFormulario.is_valid :
             informacion = miFormulario.cleaned_data
-            curso = Curso(nombre=informacion['curso'], comision=informacion['comision'])
+            curso = Curso(nombre=informacion['nombre'], camada=informacion['camada'])
             curso.save()
             return render(request, "AppCoder/inicio.html")
         
@@ -48,19 +48,34 @@ def buscar(request) :
     mensaje = "Se busco la comisión/camada número: " + str(request.GET['camada'])
     return HttpResponse(mensaje)
 
-"""
-def buscar(request) :
-    respuesta = f"Estoy buscando la comision número: {request.GET['comision']}"
-    return HttpResponse(respuesta)
+def profesorFormulario(request) :
+    if request.method == 'POST' :
+        miFormulario = ProfesorFormulario(request.POST)
+        print(miFormulario)
 
-def buscar(request) :
-    if request.GET["comision"] :
-        comision = request.GET["comision"]
-        cursos = Curso.objects.filter(comision__icontains=comision)
-        return render(request, "resultadoBusqueda.html", {"cursos":cursos, "comision":comision})
-
+        if miFormulario.is_valid :
+            informacion = miFormulario.cleaned_data
+            profesor = Profesor(nombre=informacion['nombre'], apellido=informacion['apellido'], email=informacion['email'], profesion=informacion['profesion'])
+            profesor.save()
+            return render(request, "AppCoder/inicio.html")
+    
     else :
-        respuesta = "No enviaste datos"
+        miFormulario = ProfesorFormulario()
 
-    return HttpResponse(respuesta)
-"""
+    return render(request, "AppCoder/profesorFormulario.html", {"miFormulario":miFormulario})
+
+def estudianteFormulario(request) :
+    if request.method == 'POST' :
+        miFormulario = EstudianteFormulario(request.POST)
+        print(miFormulario)
+
+        if miFormulario.is_valid :
+            informacion = miFormulario.cleaned_data
+            estudiante = Estudiante(nombre=informacion['nombre'], apellido=informacion['apellido'], email=informacion['email'])
+            estudiante.save()
+            return render(request, "AppCoder/inicio.html")
+    
+    else :
+        miFormulario = EstudianteFormulario()
+
+    return render(request, "AppCoder/estudianteFormulario.html", {"miFormulario":miFormulario})
