@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from AppCoder.models import Curso, Profesor, Estudiante
-from AppCoder.forms import CursoFormulario, ProfesorFormulario, EstudianteFormulario
+from AppCoder.models import Curso, Profesor, Estudiante, Entregable
+from AppCoder.forms import CursoFormulario, ProfesorFormulario, EstudianteFormulario, EntregableFormulario
 
 # Create your views here.
 
@@ -41,13 +41,6 @@ def cursoFormulario(request) :
 
     return render(request, "AppCoder/cursoFormulario.html", {"miFormulario":miFormulario})
 
-def busquedaCamada(request) :
-    return render(request, "../templates/AppCoder/busquedaCamada.html")
-
-def buscar(request) :
-    mensaje = "Se busco la comisión/camada número: " + str(request.GET['camada'])
-    return HttpResponse(mensaje)
-
 def profesorFormulario(request) :
     if request.method == 'POST' :
         miFormulario = ProfesorFormulario(request.POST)
@@ -79,3 +72,26 @@ def estudianteFormulario(request) :
         miFormulario = EstudianteFormulario()
 
     return render(request, "AppCoder/estudianteFormulario.html", {"miFormulario":miFormulario})
+
+def entregableFormulario(request) :
+    if request.method == 'POST' :
+        miFormulario = EntregableFormulario(request.POST)
+        print(miFormulario)
+
+        if miFormulario.is_valid :
+            informacion = miFormulario.cleaned_data
+            entrega = Entregable(nombre=informacion['nombre'],apellido=informacion['apellido'] , fecha_entrega=informacion['fecha_entrega'], entregado=informacion['entregado'])
+            entrega.save()
+            return render(request, "AppCoder/inicio.html")
+    
+    else :
+        miFormulario = EntregableFormulario()
+
+    return render(request, "AppCoder/entregableFormulario.html", {"miFormulario":miFormulario})
+
+def busquedaCamada(request) :
+    return render(request, "../templates/AppCoder/busquedaCamada.html")
+
+def buscar(request) :
+    mensaje = "Se busco la comisión/camada número: " + str(request.GET['camada'])
+    return HttpResponse(mensaje)
