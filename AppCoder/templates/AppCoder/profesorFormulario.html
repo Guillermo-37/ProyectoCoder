@@ -7,6 +7,9 @@
     <title>Formulario - Agregar Profesor</title>
 </head>
 <body>
+{% extends "AppCoder/padre.html" %}
+{% load static %}
+{% block contenidoQueCambia %}
     <h1>Formulario - Agregar Profesor</h1>
 
     {% if miFormulario.errors %}
@@ -24,5 +27,6 @@
         </table>
         <input type="submit", value="Enviar">
     </form>
+{% endblock %}
 </body>
 </html>

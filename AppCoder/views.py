@@ -8,7 +8,7 @@ from AppCoder.forms import CursoFormulario, ProfesorFormulario, EstudianteFormul
 def inicio(request) :
     return render(request, 'AppCoder/inicio.html')
     #return HttpResponse("vista inicio")
-
+"""
 def cursos(request) :
     return render(request, 'AppCoder/cursos.html')
     #return HttpResponse("vista cursos")
@@ -24,8 +24,8 @@ def entregables(request) :
 def estudiantes(request) :
     return render(request, 'AppCoder/estudiantes.html')
     #return HttpResponse("vista estudiantes")
-
-def cursoFormulario(request) :
+"""
+def cursos(request) :
     if request.method == 'POST' :
         miFormulario = CursoFormulario(request.POST)
         print(miFormulario)
@@ -41,7 +41,7 @@ def cursoFormulario(request) :
 
     return render(request, "AppCoder/cursoFormulario.html", {"miFormulario":miFormulario})
 
-def profesorFormulario(request) :
+def profesores(request) :
     if request.method == 'POST' :
         miFormulario = ProfesorFormulario(request.POST)
         print(miFormulario)
@@ -57,7 +57,7 @@ def profesorFormulario(request) :
 
     return render(request, "AppCoder/profesorFormulario.html", {"miFormulario":miFormulario})
 
-def estudianteFormulario(request) :
+def estudiantes(request) :
     if request.method == 'POST' :
         miFormulario = EstudianteFormulario(request.POST)
         print(miFormulario)
@@ -73,7 +73,7 @@ def estudianteFormulario(request) :
 
     return render(request, "AppCoder/estudianteFormulario.html", {"miFormulario":miFormulario})
 
-def entregableFormulario(request) :
+def entregables(request) :
     if request.method == 'POST' :
         miFormulario = EntregableFormulario(request.POST)
         print(miFormulario)
@@ -93,5 +93,16 @@ def busquedaCamada(request) :
     return render(request, "../templates/AppCoder/busquedaCamada.html")
 
 def buscar(request) :
+    """
     mensaje = "Se busco la comisión/camada número: " + str(request.GET['camada'])
     return HttpResponse(mensaje)
+    """
+    if request.GET['camada'] :
+        camada = request.GET['camada']
+        cursos = Curso.objects.filter(camada__icontains=camada)
+        return render(request, "AppCoder/resultadosPorBusqueda.html", {"cursos":cursos, "camada":camada})
+    
+    else :
+        respuesta = "No enviaste datos"
+    
+    return HttpResponse(respuesta)
