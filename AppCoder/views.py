@@ -4,11 +4,11 @@ from AppCoder.models import Curso, Profesor, Estudiante, Entregable
 from AppCoder.forms import CursoFormulario, ProfesorFormulario, EstudianteFormulario, EntregableFormulario
 
 # Create your views here.
-
+"""
 def inicio(request) :
     return render(request, 'AppCoder/inicio.html')
     #return HttpResponse("vista inicio")
-"""
+
 def cursos(request) :
     return render(request, 'AppCoder/cursos.html')
     #return HttpResponse("vista cursos")
@@ -80,7 +80,7 @@ def entregables(request) :
 
         if miFormulario.is_valid :
             informacion = miFormulario.cleaned_data
-            entrega = Entregable(nombre=informacion['nombre'],apellido=informacion['apellido'] , fecha_entrega=informacion['fecha_entrega'], entregado=informacion['entregado'])
+            entrega = Entregable(nombre=informacion['nombre'], apellido=informacion['apellido'] , fecha_entrega=informacion['fecha_entrega'], entregado=informacion['entregado'])
             entrega.save()
             return render(request, "AppCoder/inicio.html")
     
@@ -89,20 +89,25 @@ def entregables(request) :
 
     return render(request, "AppCoder/entregableFormulario.html", {"miFormulario":miFormulario})
 
-def busquedaCamada(request) :
-    return render(request, "../templates/AppCoder/busquedaCamada.html")
+def inicio(request) :
+    cursos = ""
+    return render(request, "../templates/AppCoder/busquedaCamada.html", {"cursos":cursos})
 
 def buscar(request) :
     """
     mensaje = "Se busco la comisión/camada número: " + str(request.GET['camada'])
     return HttpResponse(mensaje)
     """
+    cursos = ""
+
     if request.GET['camada'] :
         camada = request.GET['camada']
         cursos = Curso.objects.filter(camada__icontains=camada)
-        return render(request, "AppCoder/resultadosPorBusqueda.html", {"cursos":cursos, "camada":camada})
+        #return render(request, "AppCoder/resultadosPorBusqueda.html", {"cursos":cursos, "camada":camada})
+        return render(request, "AppCoder/busquedaCamada.html", {"cursos":cursos, "camada":camada})
     
     else :
         respuesta = "No enviaste datos"
     
-    return HttpResponse(respuesta)
+    #return HttpResponse(respuesta)
+    return render(request, "AppCoder/busquedaCamada.html", {"respuesta":respuesta, "cursos":cursos})

@@ -1,14 +1,24 @@
-<p>Estamos buscando el: {{camada}}</p>
+{% extends "AppCoder/padre.html" %}
+{% load static %}
+{% block contenidoQueCambia %}
 
 {% if cursos %}
 
-<ul>
+<p>Estamos buscando la comisión y/o camada número: {{camada}}</p>
 
+<ul>
 {% for curso in cursos %}
     <li>{{curso.nombre}}</li>
     <li>{{curso.camada}}</li>
 {% endfor %}
-
 </ul>
 
+{% else %}
+
+<p>No hay datos con esa descripción.</p>
+
 {% endif %}
+
+<p style="color: red;">{{respuesta}}</p>
+
+{% endblock %}

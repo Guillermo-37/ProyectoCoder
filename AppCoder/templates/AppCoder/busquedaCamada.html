@@ -1,19 +1,35 @@
-<html>
-
-<head>
-
-<title></title>
-
-</head>
-
-<body>
-    <h1 class="mb-5">Búsqueda por comisiones/camadas:</h1>
+{% extends "AppCoder/padre.html" %}
+{% load static %}
+{% block contenidoQueCambia %}
     
-    <form action="../buscar/" method="GET">
+    <h3>Búsqueda por comisión y/o camada:</h3>
+    
+    <form action="buscar" method="GET">
         <input type="number" name="camada" id="camada">
         <input type="submit" value="Buscar">
     </form>
 
-</body>
+    {% if cursos != "" %}
 
-</html>
+    {% if cursos %}
+
+    <p>Estamos buscando la comisión y/o camada número: {{camada}}</p>
+
+    <ul>
+    {% for curso in cursos %}
+        <li>{{curso.nombre}}</li>
+        <li>{{curso.camada}}</li>
+    {% endfor %}
+    </ul>
+
+    {% else %}
+
+    <p>No hay datos con esa descripción.</p>
+
+    {% endif %}
+
+    {% endif %}
+
+    <p style="color: red;">{{respuesta}}</p>
+
+{% endblock %}
